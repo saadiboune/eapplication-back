@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Data
 /**
  * Ex : mot recherché = 'chat' ==> Résultat : {@link Entry} . Lien de {@link } vers ses différentes relations sortantes
- * Tout les types de relaations existantes pour un noeud
+ * Tout les types de relations existantes pour un noeud
  */
 public class RelationType {
     /**
