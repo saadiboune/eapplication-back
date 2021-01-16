@@ -54,10 +54,10 @@ public class ManageData {
      * @param code
      * @return
      */
-    public List<Entry> constructEntriesFromCode(String code){
+    public List<Entry> constructEntriesFromResponse(String code){
 
         List<Entry> nodeTypeList = new ArrayList<>();
-        String nodeTypeString = StringUtils.substringBetween(code, Comments.NODE_START, Comments.COMMENT);
+        String nodeTypeString = StringUtils.substringBetween(code, Comments.ENTRY_START, Comments.COMMENT);
 
         if(nodeTypeString != null){
             String[] lines = nodeTypeString.split("\\r?\\n");
@@ -68,7 +68,7 @@ public class ManageData {
                     try{
                         nodeTypeList.add(Entry.builder()
                                 .id(Integer.parseInt(columns[1]))
-                                .name(columns[2])
+                                .name(StringUtils.substringBetween(columns[2], "'","'"))
                                 .nodeTypeId(Integer.parseInt(columns[3]))
                                 .weight(Integer.parseInt(columns[4]))
                                 .formatedName(columns.length > 5 ? StringUtils.substringBetween(columns[5], "'","'") : "").build());
@@ -88,7 +88,7 @@ public class ManageData {
      * @param code
      * @return
      */
-    public List<RelationType> constructRelationTypeFromCode(String code){
+    public List<RelationType> constructRelationTypeFromResponse(String code){
 
         List<RelationType> relationTypeArrayList = new ArrayList<>();
         String nodeTypeString = StringUtils.substringBetween(code, Comments.RELATION_TYPE_START, Comments.COMMENT);
@@ -125,7 +125,7 @@ public class ManageData {
     public List<OutRelation> constructOutRelationFromCode(String code){
 
         List<OutRelation> outrelationArrayList = new ArrayList<>();
-        String nodeTypeString = StringUtils.substringBetween(code, Comments.OUT_RELATION, Comments.COMMENT);
+        String nodeTypeString = StringUtils.substringBetween(code, Comments.OUT_RELATION_START, Comments.COMMENT);
 
         if(nodeTypeString != null){
             String[] lines = nodeTypeString.split("\\r?\\n");

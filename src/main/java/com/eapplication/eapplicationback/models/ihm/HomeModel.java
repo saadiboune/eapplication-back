@@ -31,5 +31,5 @@ public class HomeModel {
     /**
      * Map qui a pour clé l'identifiant du type de relation et la valeur est une liste de relations sortantes
      */
-    private Map<Integer, List<OutRelation>> defRaff;
+    private Map<Integer, List<OutRelation>> relationTypeWithItsOutRelations;
 }

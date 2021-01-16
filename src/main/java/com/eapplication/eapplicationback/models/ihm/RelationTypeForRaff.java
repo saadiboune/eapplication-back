@@ -31,5 +31,5 @@ public class RelationTypeForRaff {
      *
      * Définitions des raffinnements (noeuds sortants) {@link OutRelation}.outNodeId en relation avec le noeud saisi
      */
-    private List<String> rafdefinitions;
+    private List<String> rafDefinitions;
 }
