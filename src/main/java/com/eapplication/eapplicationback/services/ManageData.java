@@ -24,21 +24,24 @@ public class ManageData {
      * @param code
      * @return List<NodeType>
      */
-    public List<NodeType> constructNodeTypeFromCode(String code){
+    public List<NodeType> constructNodeTypeFromCode(String code) {
 
         List<NodeType> nodeTypeList = new ArrayList<>();
         String nodeTypeString = StringUtils.substringBetween(code, Comments.NODE_TYPE_START, Comments.COMMENT);
 
-        if(nodeTypeString != null){
+        if (nodeTypeString != null) {
             String[] lines = nodeTypeString.split("\\r?\\n");
-            for (String line : lines){
+            for (String line : lines) {
 
                 String[] columns = line.split(Comments.COLUMNS_SEPARATOR);
-                if(columns.length == 3){
-                    try{
-                        nodeTypeList.add(NodeType.builder().id(Integer.parseInt(columns[1])).name(columns[2]).build());
-                    }catch (NumberFormatException e){
-                        log.error("merde");
+                if (columns.length == 3) {
+                    try {
+                        nodeTypeList.add(NodeType.builder()
+                                .id(Integer.parseInt(columns[1]))
+                                .name(StringUtils.substringBetween(columns[2], "'", "'"))
+                                .build());
+                    } catch (NumberFormatException e) {
+                        log.error("mince !");
                     }
                 }
 
@@ -50,30 +53,29 @@ public class ManageData {
 
 
     /**
-     *
      * @param code
      * @return
      */
-    public List<Entry> constructEntriesFromResponse(String code){
+    public List<Entry> constructEntriesFromResponse(String code) {
 
         List<Entry> nodeTypeList = new ArrayList<>();
         String nodeTypeString = StringUtils.substringBetween(code, Comments.ENTRY_START, Comments.COMMENT);
 
-        if(nodeTypeString != null){
+        if (nodeTypeString != null) {
             String[] lines = nodeTypeString.split("\\r?\\n");
-            for (String line : lines){
+            for (String line : lines) {
 
                 String[] columns = line.split(Comments.COLUMNS_SEPARATOR);
-                if(columns.length >= 4){
-                    try{
+                if (columns.length >= 4) {
+                    try {
                         nodeTypeList.add(Entry.builder()
                                 .id(Integer.parseInt(columns[1]))
-                                .name(StringUtils.substringBetween(columns[2], "'","'"))
+                                .name(StringUtils.substringBetween(columns[2], "'", "'"))
                                 .nodeTypeId(Integer.parseInt(columns[3]))
                                 .weight(Integer.parseInt(columns[4]))
-                                .formatedName(columns.length > 5 ? StringUtils.substringBetween(columns[5], "'","'") : "").build());
-                    }catch (NumberFormatException e){
-                        log.error("merde 2");
+                                .formatedName(columns.length > 5 ? StringUtils.substringBetween(columns[5], "'", "'") : "").build());
+                    } catch (NumberFormatException e) {
+                        log.error("ouh là !");
                     }
                 }
 
@@ -84,32 +86,31 @@ public class ManageData {
     }
 
     /**
-     *
      * @param code
      * @return
      */
-    public List<RelationType> constructRelationTypeFromResponse(String code){
+    public List<RelationType> constructRelationTypeFromResponse(String code) {
 
         List<RelationType> relationTypeArrayList = new ArrayList<>();
-        String nodeTypeString = StringUtils.substringBetween(code, Comments.RELATION_TYPE_START, Comments.COMMENT);
+        String relationTypeString = StringUtils.substringBetween(code, Comments.RELATION_TYPE_START, Comments.COMMENT);
 
-        if(nodeTypeString != null){
-            String[] lines = nodeTypeString.split("\\r?\\n");
+        if (relationTypeString != null) {
+            String[] lines = relationTypeString.split("\\r?\\n");
             final Pattern p = Pattern.compile("\\'([^\\\"]*)\\'");
-            for (String line : lines){
+            for (String line : lines) {
 
                 String[] columns = line.split(Comments.COLUMNS_SEPARATOR);
-                if(columns.length >= 4){
-                    try{
+                if (columns.length >= 4) {
+                    try {
                         Matcher m = p.matcher(columns[2]);
                         relationTypeArrayList.add(RelationType.builder()
                                 .id(Integer.parseInt(columns[1]))
                                 .name(m.find() ? m.group(1) : "")
-                                .trgpName(columns.length == 4 ? "" : columns[3])
-                                .help(columns.length == 4 ? columns[3] : columns[4])
+                                .trgpName(columns.length == 4 ? "" : StringUtils.substringBetween(columns[3], "'", "'"))
+                                .help(columns.length == 4 ? StringUtils.substringBetween(columns[3], "'", "'") : columns[4])
                                 .build());
-                    }catch (NumberFormatException e){
-                        log.error("merde 3");
+                    } catch (NumberFormatException e) {
+                        log.error("what??");
                     }
                 }
             }
@@ -118,21 +119,20 @@ public class ManageData {
     }
 
     /**
-     *
      * @param code
      * @return
      */
-    public List<OutRelation> constructOutRelationFromCode(String code){
+    public List<OutRelation> constructOutRelationFromCode(String code) {
 
         List<OutRelation> outrelationArrayList = new ArrayList<>();
         String nodeTypeString = StringUtils.substringBetween(code, Comments.OUT_RELATION_START, Comments.COMMENT);
 
-        if(nodeTypeString != null){
+        if (nodeTypeString != null) {
             String[] lines = nodeTypeString.split("\\r?\\n");
-            for (String line : lines){
+            for (String line : lines) {
                 String[] columns = line.split(Comments.COLUMNS_SEPARATOR);
-                if(columns.length >= 4){
-                    try{
+                if (columns.length >= 4) {
+                    try {
                         outrelationArrayList.add(OutRelation.builder()
                                 .id(Integer.parseInt(columns[1]))
                                 .nodeId(Integer.parseInt(columns[2]))
@@ -140,8 +140,8 @@ public class ManageData {
                                 .relationTypeId(Integer.parseInt(columns[4]))
                                 .weight(Integer.parseInt(columns[5]))
                                 .build());
-                    }catch (NumberFormatException e){
-                        log.error("merde 5");
+                    } catch (NumberFormatException e) {
+                        log.error("ewww !");
                     }
                 }
             }
@@ -149,17 +149,17 @@ public class ManageData {
         return outrelationArrayList;
     }
 
-    public List<InRelation> constructInRelationFromCode(String code){
+    public List<InRelation> constructInRelationFromCode(String code) {
 
         List<InRelation> inrelationArrayList = new ArrayList<>();
         String nodeTypeString = StringUtils.substringBetween(code, Comments.IN_RELATION, Comments.COMMENT);
 
-        if(nodeTypeString != null){
+        if (nodeTypeString != null) {
             String[] lines = nodeTypeString.split("\\r?\\n");
-            for (String line : lines){
+            for (String line : lines) {
                 String[] columns = line.split(Comments.COLUMNS_SEPARATOR);
-                if(columns.length >= 4){
-                    try{
+                if (columns.length >= 4) {
+                    try {
                         inrelationArrayList.add(InRelation.builder()
                                 .id(Integer.parseInt(columns[1]))
                                 .inNodeId(Integer.parseInt(columns[2]))
@@ -167,14 +167,14 @@ public class ManageData {
                                 .relationTypeId(Integer.parseInt(columns[4]))
                                 .weight(Integer.parseInt(columns[5]))
                                 .build());
-                    }catch (NumberFormatException e){
-                        log.error("merde 6");
+                    } catch (NumberFormatException e) {
+                        log.error("non mais ...");
                     }
                 }
             }
         }
         return inrelationArrayList;
-}
+    }
 
     public String getStringBetweenBalise(String start, String end, String text) {
         return StringUtils.substringBetween(text, start, end);

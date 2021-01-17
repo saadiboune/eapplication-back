@@ -18,6 +18,8 @@ public class EntryDbService {
 	}
 
 	public void saveAll (List<EntryDb> entryDbList){
-		this.repository.saveAll(entryDbList);
+		if (entryDbList != null) {
+			this.repository.saveAll(entryDbList);
+		}
 	}
 }
