@@ -9,7 +9,7 @@ import java.util.List;
 public class OutRelationMapper {
     public static List<OutRelationDb> toOutRelationDb(List<OutRelation> outRelations){
         List<OutRelationDb> outRelationDbList = new ArrayList<>();
-        outRelations.parallelStream().forEach(entry -> outRelationDbList.add(OutRelationDb.builder()
+        outRelations.forEach(entry -> outRelationDbList.add(OutRelationDb.builder()
                 .id(entry.getId())
                 .nodeId(entry.getNodeId())
                 .outNodeId(entry.getOutNodeId())

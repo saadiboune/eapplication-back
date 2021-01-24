@@ -4,6 +4,8 @@ import com.eapplication.eapplicationback.constantes.Comments;
 import com.eapplication.eapplicationback.models.nodes.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -14,6 +16,9 @@ import java.util.regex.Pattern;
 @Service
 @Slf4j
 public class ManageData {
+
+    @Autowired
+    ModelMapper modelMapper;
 
     public ManageData() {
     }
@@ -100,7 +105,7 @@ public class ManageData {
             for (String line : lines) {
 
                 String[] columns = line.split(Comments.COLUMNS_SEPARATOR);
-                if (columns.length >= 4) {
+                if (columns.length >= 4 && columns[1] != null) {
                     try {
                         Matcher m = p.matcher(columns[2]);
                         relationTypeArrayList.add(RelationType.builder()
@@ -179,4 +184,11 @@ public class ManageData {
     public String getStringBetweenBalise(String start, String end, String text) {
         return StringUtils.substringBetween(text, start, end);
     }
+
+    public String removeBaliseAndCarriageReturn(String text) {
+//        return text.replaceAll("<[^>]*>", "");
+        return text.replaceAll("<[^>]*>|\\n", "");
+    }
+
+
 }

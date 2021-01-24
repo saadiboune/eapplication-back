@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.Column;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -32,5 +34,6 @@ public class RelationType {
     /**
      * help : explications sur le type de relation
      */
+    @Column(length = 500)
     private String help;
 }

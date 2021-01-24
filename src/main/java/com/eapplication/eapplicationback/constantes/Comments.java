@@ -13,4 +13,5 @@ public class Comments {
     public static String DEF_START = "<def>";
     public static String DEF_END = "</def>";
     public static String RAFF_SEMANTIC = "r_raff_sem";
+    public static String RAFF_MORPHO = "r_raff_morpho";
 }

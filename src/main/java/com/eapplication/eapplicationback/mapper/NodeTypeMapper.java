@@ -9,7 +9,7 @@ import java.util.List;
 public class NodeTypeMapper {
     public static List<NodeTypeDb> toNodeTypeDb(List<NodeType> entries){
         List<NodeTypeDb> nodeTypeDbList = new ArrayList<>();
-        entries.parallelStream().forEach(entry -> nodeTypeDbList.add(NodeTypeDb.builder()
+        entries.forEach(entry -> nodeTypeDbList.add(NodeTypeDb.builder()
                 .id(entry.getId())
                 .name(entry.getName())
                 .build()));

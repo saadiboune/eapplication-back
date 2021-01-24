@@ -3,6 +3,7 @@ package com.eapplication.eapplicationback.configuration;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -57,5 +58,15 @@ public class EApplicationConfig {
         dataSource.setSuppressClose(true);
         dataSource.setAutoCommit(true);
         return dataSource;
+    }
+
+    /**
+     * Utiliser pour mapper les Entity avec les DTO
+     *
+     * @return
+     */
+    @Bean
+    public ModelMapper modelMapper() {
+        return new ModelMapper();
     }
 }

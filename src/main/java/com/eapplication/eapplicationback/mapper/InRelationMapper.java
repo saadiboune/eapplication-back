@@ -9,7 +9,7 @@ import java.util.List;
 public class InRelationMapper {
     public static List<InRelationDb> toInRelationDb(List<InRelation> entries){
         List<InRelationDb> inRelationDbList = new ArrayList<>();
-        entries.parallelStream().forEach(entry -> inRelationDbList.add(InRelationDb.builder()
+        entries.forEach(entry -> inRelationDbList.add(InRelationDb.builder()
                 .id(entry.getId())
                 .inNodeId(entry.getInNodeId())
                 .nodeId(entry.getNodeId())

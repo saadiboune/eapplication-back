@@ -1,27 +1,28 @@
 package com.eapplication.eapplicationback;
 
-        import com.eapplication.eapplicationback.models.bdd.AutoComplModel;
-        import com.eapplication.eapplicationback.services.AutoComplService;
-        import com.fasterxml.jackson.databind.ObjectMapper;
-        import org.springframework.beans.factory.annotation.Autowired;
-        import org.springframework.boot.CommandLineRunner;
-        import org.springframework.boot.SpringApplication;
-        import org.springframework.boot.autoconfigure.SpringBootApplication;
-        import org.springframework.context.annotation.Configuration;
-        import org.springframework.core.io.ClassPathResource;
-        import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
+import com.eapplication.eapplicationback.models.bdd.AutoComplModel;
+import com.eapplication.eapplicationback.services.AutoComplService;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 
-        import javax.sql.DataSource;
-        import java.io.File;
-        import java.io.IOException;
-        import java.nio.file.Paths;
-        import java.util.*;
-        import java.util.stream.Collectors;
-        import java.util.stream.Stream;
+import javax.sql.DataSource;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Paths;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Configuration
 @SpringBootApplication
-//@ComponentScan(basePackages = "com.eapplication.eapplicationback")
+@EnableCaching
 public class EapplicationBackApplication implements CommandLineRunner  {
 
     @Autowired
@@ -44,6 +45,9 @@ public class EapplicationBackApplication implements CommandLineRunner  {
 
     }
 
+    /**
+     * Init de la table qui sert à l'autocompletion via un fichier sql
+     */
     private void initUsingSql(){
         if(autoComplService.count() == 0){
             System.out.println("Début de l'init via fichier sql ");
@@ -56,7 +60,7 @@ public class EapplicationBackApplication implements CommandLineRunner  {
     }
 
     /**
-     * Lit de dossier ./src/main/resources/files/ parse en {@link AutoComplModel} et save en bdd
+     * Lit de dossier ./src/main/resources/files/ parse en {@link AutoComplModel} et save dans la table de l'autoCompl
      *
      */
     private void initUsingFiles(){
